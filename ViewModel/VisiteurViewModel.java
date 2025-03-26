@@ -9,18 +9,19 @@ import com.example.gsb_mobile_visites.API.ApiGsbVisites;
 import com.example.gsb_mobile_visites.API.RetrofitClientInstance;
 import com.example.gsb_mobile_visites.Model.Visiteur;
 import com.example.gsb_mobile_visites.Repository.AuthRepository;
+import com.example.gsb_mobile_visites.Repository.VisiteurRepository;
 
-public class AuthViewModel extends ViewModel {
-    private AuthRepository authRepository;
+public class VisiteurViewModel extends ViewModel {
+    private VisiteurRepository visiteurRepository;
 
 
-    public AuthViewModel() {
+    public VisiteurViewModel() {
         ApiGsbVisites service = RetrofitClientInstance.getRetrofitInstance().create(ApiGsbVisites.class);
-        this.authRepository = new AuthRepository(service);
+        this.visiteurRepository = new VisiteurRepository(service);
     }
 
-     public LiveData<Visiteur>  login(String email, String password) {
-        return authRepository.login(email, password);
+    public LiveData<Visiteur> getVisiteurById(String token, String id) {
+        return visiteurRepository.getVisiteurById(token, id);
     }
 }
 

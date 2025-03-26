@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.gsb_mobile_visites.Model.Visiteur;
 import com.example.gsb_mobile_visites.ViewModel.AuthViewModel;
+import com.example.gsb_mobile_visites.ViewModel.VisiteurViewModel;
 import com.example.gsb_mobile_visites.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,20 +31,19 @@ public class MainActivity extends AppCompatActivity {
         binding.buttonMainLogin.setOnClickListener(v -> {
             String email = binding.editTextMainEmail.getText().toString();
             String password = binding.editTextMainPassword.getText().toString();
-            authViewModel.login(email, password, this);
-        });
 
-        // Observer la réponse de l'API
-        authViewModel.getVisiteur().observe(this, visiteur -> {
-            if (visiteur != null) {
-                Toast.makeText(MainActivity.this, "Connexion réussie !", Toast.LENGTH_SHORT).show();
+            authViewModel.login(email, password).observe(this, visiteur -> {
+                if (visiteur != null) {
+                    Toast.makeText(MainActivity.this, "Connexion réussie !", Toast.LENGTH_SHORT).show();
 
-                Intent intentHome = new Intent(MainActivity.this, HomeActivity.class);
-                intentHome.putExtra("visiteur", visiteur);
-                startActivity(intentHome);
-            } else {
-                Toast.makeText(MainActivity.this, "Connexion échouée !", Toast.LENGTH_SHORT).show();
-            }
+                    Intent intentHome = new Intent(MainActivity.this, HomeActivity.class);
+                    intentHome.putExtra("visiteur", visiteur);
+                    startActivity(intentHome);
+                } else {
+                    Toast.makeText(MainActivity.this, "Connexion échouée !", Toast.LENGTH_SHORT).show();
+                }
+            });
+
         });
     }
 }
